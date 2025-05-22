@@ -1,0 +1,90 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}All Notifications{% endblock %}
+
+{% block content %}
+<style>
+  .notif-container {
+    max-width: 750px;
+    margin: 60px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .notif-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+  }
+
+  .notif-card {
+    padding: 18px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    background: #f9fafb;
+    border-left: 6px solid #3b82f6;
+    transition: transform 0.2s ease;
+  }
+
+  .notif-card:hover {
+    transform: translateY(-3px);
+    background-color: #f3f4f6;
+  }
+
+  .notif-read {
+    opacity: 0.6;
+    border-left-color: #9ca3af;
+  }
+
+  .notif-message {
+    font-size: 16px;
+    color: #111827;
+    margin-bottom: 6px;
+  }
+
+  .notif-time {
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  .notif-actions a {
+    font-size: 13.5px;
+    margin-right: 12px;
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .notif-actions a.delete-link {
+    color: #dc2626;
+  }
+
+  .notif-actions a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="notif-container">
+  <div class="notif-title">🔔 All Notifications</div>
+
+  {% if notifications %}
+    {% for n in notifications %}
+      <div class="notif-card {% if n.is_read %}notif-read{% endif %}">
+        <div class="notif-message">{{ n.message }}</div>
+        <div class="notif-time">{{ n.created_at|timesince }} ago</div>
+        <div class="notif-actions">
+          {% if not n.is_read %}
+            <a href="{% url 'mark_notification_read' n.id %}">✔ Mark as read</a>
+          {% endif %}
+          <a href="{% url 'delete_notification' n.id %}" class="delete-link">🗑 Delete</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No notifications yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}User Dashboard - Tempus Naviga{% endblock %}</title>
 
-  <!-- Modern Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
@@ -57,6 +56,7 @@
       align-items: center;
       gap: 12px;
       margin-right: 20px;
+      position: relative;
     }
 
     .user-info {
@@ -132,6 +132,43 @@
         opacity: 1;
       }
     }
+
+    .notification-container {
+      position: relative;
+    }
+
+    .bell-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .notification-box {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 28px;
+      background-color: #1e293b;
+      min-width: 260px;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 999;
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+
+    .bell-wrapper:hover .notification-box {
+      display: block;
+    }
+
+    .notification-bell {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .notification-bell:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
@@ -178,12 +215,34 @@
       {% if user.is_authenticated %}
         <div class="user-area">
           <span class="user-info">👤 {{ user.username }}</span>
-          <div style="display: flex; align-items: center;">
-            <form id="logout-form" method="post" action="{% url 'logout' %}" style="margin: 0;">
-              {% csrf_token %}
-              <button type="submit" class="logout-btn">🚪 Logout</button>
-            </form>
+
+          <!-- 🔔 Bildirim Zili ve Hover Kutusu -->
+          <div class="notification-container">
+            <div class="bell-wrapper">
+              <svg class="notification-bell" xmlns="http://www.w3.org/2000/svg" fill="white" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M12 2C10.35 2 9 3.35 9 5v.29C6.16 6.82 4.5 9.23 4.5 12v5l-1.7 1.7c-.3.3-.1.8.3.8h18c.4 0 .6-.5.3-.8L19.5 17v-5c0-2.77-1.66-5.18-4.5-6.71V5c0-1.65-1.35-3-3-3zM12 24c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z"/>
+              </svg>
+
+              <div class="notification-box">
+                {% for n in notifications %}
+                  <div style="padding: 8px 12px; color: white; border-bottom: 1px solid #444;">
+                    {{ n.message }}
+                    <br><small style="font-size: 11px;">{{ n.created_at|timesince }} ago</small>
+                  </div>
+                {% empty %}
+                  <div style="padding: 10px; color: #ccc;">No notifications</div>
+                {% endfor %}
+                <div style="text-align: center; padding: 8px;">
+                  <a href="{% url 'all_notifications' %}" style="color: #93c5fd;">🔎 See all notifications</a>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <form id="logout-form" method="post" action="{% url 'logout' %}" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">🚪 Logout</button>
+          </form>
         </div>
       {% else %}
         <a href="{% url 'login' %}">🔑 Login</a>
@@ -192,7 +251,6 @@
     </div>
   </div>
 
-  <!-- İçerik -->
   <div class="main-container">
     {% block content %}{% endblock %}
   </div>

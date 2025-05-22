@@ -15,7 +15,7 @@ from django.shortcuts import render
 from .models import TaskPrompt
 from datetime import datetime, timedelta
 from .forms import UserUpdateForm, ProfilePicForm
-
+from django.utils.timezone import now
 # Anasayfa
 def index(request):
     experiences = list(Experience.objects.order_by('?')[:30].values('name', 'photo_url', 'content'))
@@ -287,7 +287,10 @@ def request_task(request):
         TaskPrompt.objects.create(
             user=request.user,
             message=input_text,
-            suggestions=json.dumps(suggestions)
+            suggestions=json.dumps(suggestions),
+            created_at = now(),  # ⏰ Bunu ekledik
+            is_completed = False
+
         )
         success = True
         input_text = ""
@@ -417,3 +420,26 @@ from .models import UserProfile
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
+from django.contrib.auth.decorators import login_required
+from .models import Notification
+
+@login_required
+def all_notifications(request):
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'yonetim/all_notifications.html', {'notifications': notifications})
+
+from django.shortcuts import get_object_or_404, redirect
+
+@login_required
+def mark_notification_read(request, pk):
+    notification = get_object_or_404(Notification, pk=pk, user=request.user)
+    notification.is_read = True
+    notification.save()
+    return redirect('all_notifications')
+
+@login_required
+def delete_notification(request, pk):
+    notification = get_object_or_404(Notification, pk=pk, user=request.user)
+    notification.delete()
+    return redirect('all_notifications')

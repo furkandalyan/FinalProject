@@ -45,4 +45,9 @@ urlpatterns = [
     path('task-statistics/', views.task_statistics, name='task_statistics'),
     path('productivity-reports/', views.productivity_reports, name='productivity_reports'),
     path('request-task/', views.request_task, name='request_task'),
+    path('all-notifications/', views.all_notifications, name='all_notifications'),
+    path('mark-notification-read/<int:pk>/', views.mark_notification_read, name='mark_notification_read'),
+
+    path('delete-notification/<int:pk>/', views.delete_notification, name='delete_notification'),
+
 ]
