@@ -1,0 +1,68 @@
+{% extends "yonetim/user_base.html" %}
+
+{% block title %}Experience Tips & Insights{% endblock %}
+
+{% block content %}
+<style>
+  .tips-container {
+    max-width: 800px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    color: #333;
+  }
+
+  .tips-container h1 {
+    font-size: 32px;
+    color: #5A4FCF;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+  }
+
+  .tips-container h2 {
+    font-size: 22px;
+    color: #444;
+    margin-top: 30px;
+  }
+
+  .tips-container ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+
+  .tips-container li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+</style>
+
+<div class="tips-container">
+  <h1>Tips & Guidelines for Sharing Experiences</h1>
+
+  <h2>📌 Writing Tips</h2>
+  <ul>
+    <li>Keep it between 100–500 words for best readability.</li>
+    <li>Be respectful and constructive. Think like you’re helping a friend.</li>
+    <li>Share specific examples and outcomes.</li>
+  </ul>
+
+  <h2>💡 What to Talk About?</h2>
+  <ul>
+    <li>How has Tempus Naviga helped you?</li>
+    <li>What’s your favorite feature?</li>
+    <li>Did something surprise you — good or bad?</li>
+    <li>Have you improved productivity or focus?</li>
+  </ul>
+
+  <h2>🚫 Rules & Etiquette</h2>
+  <ul>
+    <li>No offensive language, discrimination, or harassment.</li>
+    <li>Do not share fake stories or promotions.</li>
+    <li>Respect the privacy of others — do not name third parties.</li>
+    <li>Your submission will be reviewed before being published.</li>
+  </ul>
+</div>
+{% endblock %}

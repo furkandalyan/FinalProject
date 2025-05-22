@@ -1,0 +1,206 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}📈 Productivity Reports{% endblock %}
+
+{% block content %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .report-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .report-container h2 {
+    font-size: 32px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .stat-box {
+    flex: 1 1 250px;
+    background: #f8f9fa;
+    border-left: 4px solid #007BFF;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-4px);
+  }
+
+  .stat-box h3 {
+    margin: 0 0 10px;
+    color: #007BFF;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .stat-box p {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .no-data {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+    font-size: 16px;
+  }
+
+  .charts {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .chart-container {
+    background-color: #fdfdfd;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 600px;
+  }
+
+  canvas {
+    max-width: 100%;
+    height: 350px !important;
+  }
+</style>
+
+<div class="report-container">
+  <h2>📊 Your Productivity Summary</h2>
+
+  {% if total_tasks > 0 %}
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h3>📝 Total Tasks</h3>
+        <p>{{ total_tasks }}</p>
+      </div>
+
+      <div class="stat-box">
+        <h3>✅ Completed Tasks</h3>
+        <p>{{ completed_tasks }}</p>
+      </div>
+
+      <div class="stat-box">
+        <h3>📈 Completion Rate</h3>
+        <p>{{ completion_rate }}%</p>
+      </div>
+
+      <div class="stat-box">
+        <h3>📅 Last Submission</h3>
+        <p>{{ last_submission|date:"M d, Y - H:i" }}</p>
+      </div>
+
+      <div class="stat-box">
+        <h3>🔥 Most Active Day</h3>
+        {% if most_active_day %}
+          <p>{{ most_active_day }} — {{ most_active_day_count }} tasks</p>
+        {% else %}
+          <p>No activity yet.</p>
+        {% endif %}
+      </div>
+
+      <div class="stat-box">
+        <h3>📆 Last 7 Days</h3>
+        {% if recent_tasks > 0 %}
+          <p><strong>{{ recent_tasks }}</strong> tasks submitted recently.</p>
+        {% else %}
+          <p>No tasks in the past 7 days.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-container">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  {% else %}
+    <div class="no-data">
+      You haven't submitted any tasks yet. Once you do, your stats will appear here!
+    </div>
+  {% endif %}
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart Initialization -->
+<script>
+  {% if total_tasks > 0 %}
+    const barCtx = document.getElementById('barChart').getContext('2d');
+
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: {{ daily_labels|safe }},
+        datasets: [{
+          label: 'Daily Tasks',
+          data: {{ daily_counts|safe }},
+          backgroundColor: 'rgba(0, 123, 255, 0.7)',
+          borderRadius: 8,
+          barPercentage: 0.6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Activity Over the Past 7 Days',
+            font: {
+              size: 18,
+              weight: '600',
+              family: 'Inter'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#444',
+              font: { family: 'Inter', size: 13 }
+            },
+            grid: {
+              color: '#eee'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#444',
+              font: { family: 'Inter', size: 13 }
+            },
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  {% endif %}
+</script>
+{% endblock %}

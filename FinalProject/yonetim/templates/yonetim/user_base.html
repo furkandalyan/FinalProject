@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}User Dashboard - Tempus Naviga{% endblock %}</title>
+
+  <!-- Modern Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    .navbar {
+      background: linear-gradient(to right, #1f2937, #111827);
+      padding: 14px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+      animation: slideDown 0.6s ease;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 15.5px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-right: 20px;
+    }
+
+    .user-info {
+      color: white;
+      font-size: 15.5px;
+      font-weight: 500;
+    }
+
+    .logout-btn {
+      background-color: #ef4444;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      font-size: 14.5px;
+      transition: background-color 0.3s ease;
+      margin-left: 0;
+      margin-right: 10px;
+      max-width: 120px;
+      white-space: nowrap;
+    }
+
+    .logout-btn:hover {
+      background-color: #dc2626;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2e3b4e;
+      min-width: 180px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      border-radius: 6px;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 10px 14px;
+      display: block;
+      text-align: left;
+      font-size: 14.5px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #475569;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .main-container {
+      padding-top: 90px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    @keyframes slideDown {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="{% url 'user_dashboard' %}">🏠 Home</a>
+
+      <div class="dropdown">
+        <a href="#">📅 Task Management ⬇</a>
+        <div class="dropdown-content">
+          <a href="{% url 'my_tasks' %}">📌 My Tasks</a>
+          <a href="{% url 'completed_tasks' %}">✅ Completed Tasks</a>
+          <a href="{% url 'task_statistics' %}">📊 Task Statistics</a>
+          <a href="{% url 'request_task' %}">🤖 Request Task</a>
+        </div>
+      </div>
+
+      <a href="{% url 'productivity_reports' %}">📈 Productivity Reports</a>
+
+      <div class="dropdown">
+        <a href="#">📰 Blog ⬇</a>
+        <div class="dropdown-content">
+          <a href="{% url 'latest_posts' %}">🆕 Latest Posts</a>
+          <a href="{% url 'my_blog_posts' %}">✍ My Blog Posts</a>
+          <a href="{% url 'create_post' %}">➕ Create a Post</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <a href="#">💡 Experience ⬇</a>
+        <div class="dropdown-content">
+          <a href="{% url 'shared_experiences' %}">🗣️ Shared Experiences</a>
+          <a href="{% url 'submit_experience' %}">✍ Share Your Experience</a>
+          <a href="{% url 'experience_tips' %}">📢 Tips & Insights</a>
+        </div>
+      </div>
+
+      <a href="{% url 'profile_settings' %}">⚙ Profile Settings</a>
+    </div>
+
+    <div class="nav-right">
+      {% if user.is_authenticated %}
+        <div class="user-area">
+          <span class="user-info">👤 {{ user.username }}</span>
+          <div style="display: flex; align-items: center;">
+            <form id="logout-form" method="post" action="{% url 'logout' %}" style="margin: 0;">
+              {% csrf_token %}
+              <button type="submit" class="logout-btn">🚪 Logout</button>
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}">🔑 Login</a>
+        <a href="{% url 'register' %}">📝 Register</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- İçerik -->
+  <div class="main-container">
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

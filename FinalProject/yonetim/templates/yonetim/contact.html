@@ -1,0 +1,90 @@
+{% extends "yonetim/base.html" %}
+
+{% block title %}Contact - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  .contact-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 20px auto 20px auto;
+    max-width: 800px;
+    text-align: center;
+  }
+  .contact-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-transform: uppercase;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+  .contact-container p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  .contact-info {
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .contact-info a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+  }
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+
+  /* Animasyonlu Alt Banner */
+  .animated-banner {
+    margin-top: 10px; /* Az bir boşluk */
+    width: 100%;
+    background: linear-gradient(90deg, #007BFF, #0056b3);
+    color: white;
+    padding: 30px 0; /* Banner yüksekliğini artırdık */
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+  .animated-banner span {
+    display: inline-block;
+    /* Artık kayan değil, hafif pulse animasyonu uyguluyoruz */
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+
+<div class="contact-container">
+  <h1>Contact Us</h1>
+  <p>Have questions or need help? Feel free to reach out to us!</p>
+  <p class="contact-info">
+    📍 Address: 1234 FinalProject Street, Istanbul, Turkey
+  </p>
+  <p class="contact-info">
+    📞 Phone: <a href="tel:+905551234567">+90 555 123 45 67</a>
+  </p>
+  <p class="contact-info">
+    ✉️ Email: <a href="mailto:tempusnaviga@gmail.com">tempusnaviga@gmail.com</a>
+  </p>
+</div>
+
+<div class="animated-banner">
+  <span>🚀 Stay connected with us! Follow us on social media for the latest updates. 🚀</span>
+</div>
+{% endblock %}

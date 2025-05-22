@@ -1,0 +1,199 @@
+{% extends "yonetim/base.html" %}
+{% block title %}Blog - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  .blog-section {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .blog-section h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    text-transform: uppercase;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  .blog-slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .blog-slider {
+    display: flex;
+    gap: 30px;
+    padding: 20px 0;
+    will-change: transform;
+  }
+
+  .blog-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 450px;
+    min-height: 320px;
+    flex: 0 0 auto;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog-card > *:not(.glow-border) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .glow-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .glow-border rect {
+    fill: none;
+    stroke: #00aaff;
+    stroke-width: 3;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 0;
+    /* Border animasyonunu yavaş tuttuk (8s) */
+    animation: trace-border 8s ease-in-out infinite;
+    rx: 12;
+    ry: 12;
+  }
+
+  @keyframes trace-border {
+    0%   { stroke-dashoffset: 400; }
+    50%  { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -400; }
+  }
+
+  .blog-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+
+  .blog-card .author {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007BFF;
+    margin-bottom: 10px;
+  }
+
+  .blog-card .content {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.8;
+    max-height: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: max-height 0.5s ease;
+  }
+
+  .blog-card.expanded .content {
+    max-height: 1000px;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .read-more:hover {
+    background-color: #0056b3;
+  }
+
+  .see-all-blogs {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    background-color: #28A745;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .see-all-blogs:hover {
+    background-color: #218838;
+  }
+</style>
+
+<div class="blog-section">
+  <h1>All Blog Posts</h1>
+
+  <div class="blog-slider-container">
+    <div class="blog-slider" id="blogSlider">
+      {% for blog in blogs %}
+      <div class="blog-card">
+        <svg class="glow-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <rect x="1" y="1" width="98" height="98" />
+        </svg>
+        <img src="{{ blog.author_image }}" alt="Author">
+        <div class="author">{{ blog.author }}</div>
+        <div class="content">{{ blog.content }}</div>
+        <span class="read-more" onclick="toggleReadMore(this)">Read More</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <a href="/all-blogs/" class="see-all-blogs">See All Blog Posts</a>
+</div>
+
+<script>
+  function toggleReadMore(button) {
+    var card = button.parentElement;
+    card.classList.toggle("expanded");
+    button.innerText = card.classList.contains("expanded") ? "Read Less" : "Read More";
+  }
+
+  const blogSlider = document.getElementById("blogSlider");
+  // Kesintisiz scroll
+  blogSlider.innerHTML += blogSlider.innerHTML;
+
+  const totalWidth = blogSlider.scrollWidth / 2;
+  let scrollAmount = 0;
+  // Blog kutularını orijinal hıza (1) getirdik
+  const scrollSpeed = 1;
+
+  function autoScroll() {
+    scrollAmount = (scrollAmount + scrollSpeed) % totalWidth;
+    blogSlider.style.transform = `translateX(-${scrollAmount}px)`;
+    requestAnimationFrame(autoScroll);
+  }
+
+  autoScroll();
+</script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}📊 Task Statistics{% endblock %}
+
+{% block content %}
+<style>
+  .stats-container {
+    max-width: 900px;
+    margin: 60px auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .stats-container h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #2c3e50;
+  }
+
+  .overview {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .overview-box {
+    background-color: #f4f9ff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    flex: 1 1 200px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+  }
+
+  .overview-box h3 {
+    font-size: 22px;
+    color: #007BFF;
+    margin-bottom: 10px;
+  }
+
+  .overview-box p {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .category-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .category-card {
+    background-color: #f7f9fc;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px 20px;
+    width: 220px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+
+  .category-card h4 {
+    margin: 0 0 10px;
+    color: #007BFF;
+    font-size: 18px;
+  }
+
+  .progress-bar {
+    height: 12px;
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+
+  .fill {
+    background-color: #28a745;
+    height: 100%;
+  }
+
+  .percent {
+    font-weight: bold;
+    color: #333;
+  }
+</style>
+
+<div class="stats-container">
+  <h2>📊 Your Task Statistics</h2>
+
+  <div class="overview">
+    <div class="overview-box">
+      <h3>Total Tasks</h3>
+      <p>{{ total }}</p>
+    </div>
+    <div class="overview-box">
+      <h3>Completed</h3>
+      <p>{{ completed }}</p>
+    </div>
+    <div class="overview-box">
+      <h3>Pending</h3>
+      <p>{{ pending }}</p>
+    </div>
+  </div>
+
+  <div class="category-grid">
+    {% for cat in category_stats %}
+      <div class="category-card">
+        <h4>{{ cat.name }}</h4>
+        <p>Total: {{ cat.total }}</p>
+        <p>Completed: {{ cat.completed }}</p>
+        <div class="progress-bar">
+          <div class="fill" style="width: {{ cat.percent }}%"></div>
+        </div>
+        <p class="percent">{{ cat.percent }}%</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

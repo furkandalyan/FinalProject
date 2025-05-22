@@ -1,0 +1,66 @@
+{% extends "yonetim/base.html" %}
+{% block title %}All Blog Posts{% endblock %}
+
+{% block content %}
+<style>
+  .all-blogs-container {
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .all-blogs-container h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #2c3e50;
+    margin-bottom: 40px;
+  }
+
+  .blog-item {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .blog-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .blog-title:hover {
+    text-decoration: underline;
+  }
+
+  .blog-meta {
+    font-size: 14px;
+    color: #888;
+    margin-top: 5px;
+  }
+
+  .no-blogs {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+    padding: 40px;
+  }
+</style>
+
+<div class="all-blogs-container">
+  <h2>📰 All Blog Posts</h2>
+
+  {% if blogs %}
+    {% for blog in blogs %}
+      <div class="blog-item">
+        <a href="{% url 'blog_post_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a>
+        <div class="blog-meta">Published on {{ blog.created_at|date:"F j, Y" }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-blogs">No blog posts found.</div>
+  {% endif %}
+</div>
+{% endblock %}

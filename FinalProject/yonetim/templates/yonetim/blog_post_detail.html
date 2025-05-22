@@ -1,0 +1,55 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<style>
+  .post-detail {
+    max-width: 700px;
+    margin: 80px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-detail h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .post-detail p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  .post-date {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 20px;
+  }
+
+  .back-button {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="post-detail">
+  <h2>{{ post.title }}</h2>
+  <div class="post-date">📅 {{ post.created_at|date:"F j, Y, g:i a" }}</div>
+  <p>{{ post.content|linebreaks }}</p>
+  <a href="{% url 'my_blog_posts' %}" class="back-button">← Back to My Posts</a>
+</div>
+{% endblock %}

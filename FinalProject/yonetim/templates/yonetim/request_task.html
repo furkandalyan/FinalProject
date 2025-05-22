@@ -1,0 +1,137 @@
+{% extends "yonetim/user_base.html" %}
+
+{% block title %}Request Task - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  .task-request-container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .task-request-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #007bff;
+    display: inline-block;
+    padding-bottom: 8px;
+  }
+
+  .info-box {
+    background-color: #e8f1ff;
+    color: #004085;
+    padding: 16px;
+    border-left: 6px solid #007bff;
+    border-radius: 8px;
+    font-size: 15.5px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    resize: vertical;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-submit {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+
+  .alert-success {
+    display: none;
+    background-color: #e9f9ef;
+    color: #155724;
+    padding: 16px;
+    border-left: 6px solid #28a745;
+    border-radius: 8px;
+    font-size: 15.5px;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+</style>
+
+<div class="task-request-container">
+  <h2>Request Task Assistance</h2>
+
+  <div class="info-box">
+    ℹ️ Please describe your daily or weekly routine in full detail.<br>
+    The more complete and specific your input is, the better suggestions we can generate.
+  </div>
+
+  <form id="taskForm" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="taskInput">Your Routine Description:</label>
+      <textarea name="task_input" id="taskInput" rows="6" placeholder="E.g., I study at night but get distracted by my phone..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Analyze My Routine</button>
+
+    <div class="alert-success" id="thankYouBox">
+      ✅ Thank you for sharing your routine!<br>
+      We’ll analyze it and generate suggestions soon.<br>
+      You can view them later in the <strong>My Tasks</strong> section.
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById("taskForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const textarea = document.getElementById("taskInput");
+    const thankBox = document.getElementById("thankYouBox");
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch("{% url 'request_task' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": csrfToken
+      },
+      body: new URLSearchParams({
+        task_input: textarea.value
+      })
+    }).then(response => {
+      if (response.ok) {
+        textarea.value = "";
+        thankBox.style.display = "block";
+      }
+    });
+  });
+</script>
+{% endblock %}

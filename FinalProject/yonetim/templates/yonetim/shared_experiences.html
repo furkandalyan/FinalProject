@@ -1,0 +1,124 @@
+{% extends "yonetim/user_base.html" %}
+
+{% block title %}Shared Experiences - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  .experience-section {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1000px;
+    text-align: center;
+  }
+
+  .experience-section h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    text-transform: uppercase;
+    border-bottom: 3px solid #5A4FCF;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  .experience-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .experience-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 340px;
+    text-align: left;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .experience-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .experience-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px;
+  }
+
+  .experience-card .user-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5A4FCF;
+    margin-bottom: 10px;
+  }
+
+  .experience-card .content {
+    font-size: 15.5px;
+    color: #444;
+    margin-top: 10px;
+    line-height: 1.7;
+    max-height: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: max-height 0.4s ease;
+  }
+
+  .experience-card.expanded .content {
+    max-height: 1000px;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 7px 12px;
+    background-color: #5A4FCF;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .read-more:hover {
+    background-color: #483bb7;
+  }
+</style>
+
+<div class="experience-section">
+  <h1>Shared Experiences</h1>
+
+  <div class="experience-container">
+    {% for experience in experiences %}
+      <div class="experience-card">
+        <img src="{{ experience.photo_url }}" alt="User">
+        <div class="user-name">{{ experience.name }}</div>
+        <div class="content">{{ experience.content }}</div>
+        {% if experience.content|length > 100 %}
+          <span class="read-more" onclick="toggleReadMore(this)">Read More</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  function toggleReadMore(button) {
+    const card = button.closest('.experience-card');
+    card.classList.toggle("expanded");
+    button.innerText = card.classList.contains("expanded") ? "Read Less" : "Read More";
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}✅ Completed Tasks{% endblock %}
+
+{% block content %}
+<style>
+  .task-list-container {
+    max-width: 700px;
+    margin: 60px auto;
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  }
+
+  .task-list-container h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  ul.task-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul.task-list li {
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    background-color: #e6ffe6;
+    border-left: 5px solid #28a745;
+    border-radius: 8px;
+  }
+
+  ul.task-list li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: block;
+  }
+
+  .no-submissions {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    padding: 20px 0;
+  }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="task-list-container">
+  <h2>✅ Completed Tasks</h2>
+
+  <ul class="task-list">
+    {% for prompt in prompts %}
+      <li>
+        <a href="{% url 'task_prompt_detail' prompt.id %}">
+          {{ prompt.created_at|date:"Y-m-d H:i" }} — {{ prompt.message|truncatechars:50 }}
+        </a>
+      </li>
+    {% empty %}
+      <li class="no-submissions">No completed tasks yet.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'user_dashboard' %}" class="back-link">← Back to Dashboard</a>
+</div>
+{% endblock %}

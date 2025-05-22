@@ -1,0 +1,78 @@
+{% extends "yonetim/user_base.html" %}
+
+{% block title %}Dashboard - Tempus Naviga{% endblock %}
+
+{% block content %}
+<style>
+  .dashboard-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff10;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .dashboard-container h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+    animation: bounceIn 1s ease;
+  }
+
+  .dashboard-container p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  .quick-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .quick-links .btn {
+    background: linear-gradient(to right, #dbeafe, #3b82f6); /* Açık mavi - koyu mavi */
+    padding: 16px 32px;
+    border-radius: 14px;
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .quick-links .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<div class="dashboard-container">
+  <h1>Welcome, {{ user.username }} 👋</h1>
+  <p>Boost your focus and productivity with your personal time assistant.</p>
+
+  <div class="quick-links">
+    <a href="{% url 'my_tasks' %}" class="btn">📌 View Tasks</a>
+    <a href="{% url 'task_statistics' %}" class="btn">📊 Productivity Stats</a>
+    <a href="{% url 'profile_settings' %}" class="btn">⚙ Profile Settings</a>
+  </div>
+</div>
+{% endblock %}

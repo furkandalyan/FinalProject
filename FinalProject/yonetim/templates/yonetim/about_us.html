@@ -1,0 +1,303 @@
+{% extends "yonetim/base.html" %}
+{% block title %}About Us - 404 Not Found{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  .about-container {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fefefe;
+    border-radius: 12px;
+  }
+
+  .about-container h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .about-container p {
+    font-size: 20px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+  }
+
+  .uni-info {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 40px;
+    color: #d0d0d0;
+  }
+
+  .vision-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  .vision-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .vision-box h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #FFDC00;
+    text-transform: uppercase;
+  }
+
+  .vision-box p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #f0f0f0;
+  }
+
+  .team-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px 80px;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 80px;
+  }
+
+  .team-card {
+    width: 260px;
+    height: 340px;
+    perspective: 1000px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  .flip-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+    border-radius: 15px;
+    position: relative;
+  }
+
+  .team-card:hover .flip-inner:not(.flipped) {
+    transform: rotateY(20deg);
+  }
+
+  .flip-inner.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 20px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flip-back {
+    transform: rotateY(180deg);
+    background-color: #2a5298;
+    color: #fff;
+  }
+
+  .flip-front img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #2a5298;
+  }
+
+  .flip-front h3, .flip-back h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #2a5298;
+  }
+
+  .flip-front p {
+    font-size: 15px;
+    color: #555;
+  }
+
+  .social-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+
+  .social-icons a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .social-icons a:hover {
+    color: #FFD700;
+    transform: scale(1.05);
+  }
+
+  .social-icons i {
+    font-size: 18px;
+    width: 20px;
+  }
+</style>
+
+<div class="about-container">
+  <h1>About Us</h1>
+  <p>
+    We are 404 Not Found – a team of four dedicated Computer Engineering students from Acıbadem University.
+    With our diverse skills in frontend design, backend development, UX research, and full-stack development, we are committed to creating innovative solutions.
+  </p>
+  <p class="uni-info">Acıbadem University, Department of Computer Engineering</p>
+
+  <h2>Our Vision & Goals</h2>
+  <div class="vision-container">
+    <div class="vision-box">
+      <h3>Our Vision</h3>
+      <p>To revolutionize time management through smart, intuitive technology that empowers users to achieve more every day.</p>
+    </div>
+    <div class="vision-box">
+      <h3>Our Mission</h3>
+      <p>We strive to build a platform that integrates productivity tools, user experiences, and AI-driven insights.</p>
+    </div>
+    <div class="vision-box">
+      <h3>Our Goals</h3>
+      <p>To innovate, adapt, and lead the change in digital time management, making productivity enjoyable for everyone.</p>
+    </div>
+  </div>
+
+  <h2>Meet the Team</h2>
+  <div class="team-container">
+
+    <!-- Furkan -->
+    <div class="team-card" onclick="this.querySelector('.flip-inner').classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Furkan">
+          <h3>Mahir Furkan Dalyan</h3>
+          <p>Creator</p>
+        </div>
+        <div class="flip-back">
+          <h3>@furkandalyan</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fas fa-globe"></i> furkan.dev</a>
+            <a href="#"><i class="fab fa-instagram"></i> furkandalyan</a>
+            <a href="#"><i class="fab fa-linkedin"></i> furkanlinkedin</a>
+            <a href="#"><i class="fab fa-x-twitter"></i> furkanx</a>
+            <a href="#"><i class="fab fa-youtube"></i> furkanyoutube</a>
+            <a href="#"><i class="fab fa-facebook"></i> furkanfb</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sevde -->
+    <div class="team-card" onclick="this.querySelector('.flip-inner').classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Sevde">
+          <h3>Sevde Toker</h3>
+          <p>Creator</p>
+        </div>
+        <div class="flip-back">
+          <h3>@sevdetoker</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fas fa-globe"></i> sevde.dev</a>
+            <a href="#"><i class="fab fa-instagram"></i> sevdetoker</a>
+            <a href="#"><i class="fab fa-linkedin"></i> sevdelink</a>
+            <a href="#"><i class="fab fa-x-twitter"></i> sevdex</a>
+            <a href="#"><i class="fab fa-youtube"></i> sevdeyt</a>
+            <a href="#"><i class="fab fa-facebook"></i> sevdefb</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eylul -->
+    <div class="team-card" onclick="this.querySelector('.flip-inner').classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Eylul">
+          <h3>Eylül Hanta</h3>
+          <p>Creator</p>
+        </div>
+        <div class="flip-back">
+          <h3>@eylulh</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fas fa-globe"></i> eylul.dev</a>
+            <a href="#"><i class="fab fa-instagram"></i> eylulhanta</a>
+            <a href="#"><i class="fab fa-linkedin"></i> eylullink</a>
+            <a href="#"><i class="fab fa-x-twitter"></i> eylulx</a>
+            <a href="#"><i class="fab fa-youtube"></i> eylulyt</a>
+            <a href="#"><i class="fab fa-facebook"></i> eylulfb</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buğra -->
+    <div class="team-card" onclick="this.querySelector('.flip-inner').classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="Buğra">
+          <h3>Recep Buğra Sarıkaya</h3>
+          <p>Creator</p>
+        </div>
+        <div class="flip-back">
+          <h3>@bugrasar</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fas fa-globe"></i> bugra.dev</a>
+            <a href="#"><i class="fab fa-instagram"></i> bugragram</a>
+            <a href="#"><i class="fab fa-linkedin"></i> bugralinkedin</a>
+            <a href="#"><i class="fab fa-x-twitter"></i> bugrax</a>
+            <a href="#"><i class="fab fa-youtube"></i> bugrayt</a>
+            <a href="#"><i class="fab fa-facebook"></i> bugrafb</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".team-card").forEach(card => {
+      let inner = card.querySelector('.flip-inner');
+      let flipped = false;
+      card.addEventListener('click', function () {
+        flipped = !flipped;
+        if (flipped) inner.classList.add('flipped');
+        else inner.classList.remove('flipped');
+      });
+    });
+  });
+</script>
+{% endblock %}

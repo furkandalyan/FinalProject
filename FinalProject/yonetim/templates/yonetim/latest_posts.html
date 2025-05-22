@@ -1,0 +1,70 @@
+{% extends "yonetim/user_base.html" %}
+{% block title %}Latest Blog Posts{% endblock %}
+
+{% block content %}
+<style>
+  .latest-container {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .latest-container h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #2c3e50;
+  }
+
+  .latest-blog {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .latest-blog:last-child {
+    border-bottom: none;
+  }
+
+  .blog-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .blog-title:hover {
+    text-decoration: underline;
+  }
+
+  .blog-date {
+    font-size: 14px;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  .no-posts {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+    padding: 40px;
+  }
+</style>
+
+<div class="latest-container">
+  <h2>🕘 Latest Blog Posts</h2>
+
+  {% if blogs %}
+    {% for blog in blogs %}
+      <div class="latest-blog">
+        <a href="{% url 'blog_post_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a>
+        <div class="blog-date">Published on {{ blog.created_at|date:"F j, Y" }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-posts">No blog posts available.</div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "yonetim/base.html" %}
+
+{% block title %}Our Purpose - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  .purpose-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    max-width: 900px;
+    text-align: justify;
+    line-height: 1.8;
+  }
+  .purpose-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #2c3e50;
+    text-transform: uppercase;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+  .purpose-container p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  .highlight {
+    font-weight: bold;
+    color: #007BFF;
+  }
+  .callout {
+    background: #f8f9fa;
+    padding: 15px;
+    border-left: 5px solid #007BFF;
+    font-style: italic;
+    color: #333;
+    margin-top: 20px;
+  }
+</style>
+
+<div class="purpose-container">
+  <h1>Our Purpose</h1>
+  <p>
+    At <span class="highlight">Tempus Naviga</span>, we believe in the power of technology to enhance productivity, efficiency, and work-life balance.
+    Our mission is to develop intuitive tools that allow individuals and teams to <span class="highlight">better manage their time, organize their tasks, and track their progress</span>.
+  </p>
+
+  <p>
+    In today's fast-paced world, time management is more important than ever.
+    We recognize that professionals, students, and businesses need a seamless way to <span class="highlight">prioritize tasks, set goals, and stay on track</span>.
+    That’s why we are committed to creating a platform that makes productivity simple, enjoyable, and effective.
+  </p>
+
+  <p>
+    Our approach is rooted in three core principles:
+    <ul>
+      <li><span class="highlight">Simplicity:</span> Easy-to-use interfaces and intuitive design.</li>
+      <li><span class="highlight">Efficiency:</span> Powerful tools to optimize your workflow.</li>
+      <li><span class="highlight">Innovation:</span> Continuous updates to adapt to changing needs.</li>
+    </ul>
+  </p>
+
+  <div class="callout">
+    "The key to success is not just hard work, but <span class="highlight">smart work</span>. FinalProject helps you achieve more with less effort."
+  </div>
+
+  <p>
+    We invite you to explore FinalProject and experience a smarter way to stay organized.
+    Whether you are an entrepreneur, a student, or a professional, our tools are designed to <span class="highlight">help you take control of your time and maximize your potential</span>.
+  </p>
+</div>
+{% endblock %}

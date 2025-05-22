@@ -1,0 +1,277 @@
+{% extends "yonetim/base.html" %}
+
+{% block title %}Welcome - FinalProject{% endblock %}
+
+{% block content %}
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 64px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+    color: #333;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+
+  .experience-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .experience-card {
+    position: absolute;
+    width: 280px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: left;
+    opacity: 0;
+    animation: birth 0.8s forwards;
+    transition: transform 3s ease-in-out;
+  }
+
+  .experience-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+
+  .experience-card .user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-left: 50px;
+  }
+
+  .experience-card .experience-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 60px;
+  }
+
+  .read-more {
+    color: #007BFF;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+    margin-top: 5px;
+  }
+
+  @keyframes birth {
+    0% { opacity: 0; transform: translate(-30px, -30px) scale(0.8); }
+    100% { opacity: 1; transform: translate(0, 0) scale(1); }
+  }
+
+  @keyframes vanish {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(30px, 30px) scale(0.8); }
+  }
+</style>
+
+<!-- Ortada WELCOME -->
+<div class="content">
+  <h1 id="welcomeMessage">WELCOME</h1>
+</div>
+
+<!-- Kartların kapsayıcısı -->
+<div class="experience-container" id="experienceContainer"></div>
+
+<!-- JavaScript -->
+<script>
+  const sloganTexts = [
+    "Organize Your Life, Track Your Progress",
+    "Time Management Made Simple",
+    "Plan, Achieve, Succeed",
+    "Stay Focused, Stay Productive",
+    "Structure Your Day, Shape Your Future",
+    "Track Progress, Stay Motivated"
+  ];
+  let currentSloganIndex = 0;
+
+  const sloganElement = document.createElement("span");
+  sloganElement.id = "slogan";
+  sloganElement.style.color = "#fff";
+  sloganElement.style.fontSize = "18px";
+  sloganElement.style.fontWeight = "600";
+  sloganElement.style.margin = "0 70px";
+
+  // Sloganı NAVBAR'da FAQ ile Login arasına yerleştir
+  window.addEventListener("DOMContentLoaded", () => {
+    const navLeft = document.querySelector(".nav-left");
+    const allLinks = navLeft.querySelectorAll("a");
+    const faqLink = Array.from(allLinks).find(a => a.textContent.trim() === "FAQ");
+    const loginLink = document.querySelector(".nav-right a.login");
+    if (faqLink && loginLink && faqLink.parentNode === loginLink.parentNode) {
+      loginLink.parentNode.insertBefore(sloganElement, loginLink);
+    } else if (faqLink && faqLink.parentNode) {
+      faqLink.insertAdjacentElement("afterend", sloganElement);
+    }
+    typeSlogan(sloganTexts[currentSloganIndex], changeSlogan);
+  });
+
+  function typeSlogan(text, callback) {
+    let i = 0;
+    sloganElement.textContent = "";
+    function type() {
+      if (i < text.length) {
+        sloganElement.textContent += text[i];
+        i++;
+        setTimeout(type, 60);
+      } else {
+        setTimeout(callback, 2000);
+      }
+    }
+    type();
+  }
+
+  function deleteSlogan(callback) {
+    let text = sloganElement.textContent;
+    let i = text.length;
+    function erase() {
+      if (i > 0) {
+        sloganElement.textContent = text.substring(0, i - 1);
+        i--;
+        setTimeout(erase, 30);
+      } else {
+        setTimeout(callback, 500);
+      }
+    }
+    erase();
+  }
+
+  function changeSlogan() {
+    deleteSlogan(() => {
+      currentSloganIndex = (currentSloganIndex + 1) % sloganTexts.length;
+      typeSlogan(sloganTexts[currentSloganIndex], changeSlogan);
+    });
+  }
+
+  // WELCOME animasyonu
+  const welcomeMessages = ["WELCOME", "BIENVENUE", "BEM-VINDO", "WILLKOMMEN", "ようこそ", "欢迎", "환영합니다", "أهلاً وسهلاً"];
+  let currentWelcomeIndex = 0;
+  const welcomeElement = document.getElementById("welcomeMessage");
+
+  function displayWelcomeMessage() {
+    welcomeElement.style.opacity = "1";
+    welcomeElement.style.transform = "translateY(0)";
+    setTimeout(() => {
+      welcomeElement.style.opacity = "0";
+      welcomeElement.style.transform = "translateY(20px)";
+    }, 2500);
+    setTimeout(() => {
+      currentWelcomeIndex = (currentWelcomeIndex + 1) % welcomeMessages.length;
+      welcomeElement.textContent = welcomeMessages[currentWelcomeIndex];
+      welcomeElement.style.opacity = "1";
+      welcomeElement.style.transform = "translateY(0)";
+    }, 3000);
+  }
+
+  displayWelcomeMessage();
+  setInterval(displayWelcomeMessage, 4000);
+
+  // Experience kartları
+  const experiences = {{ experiences|safe }};
+  const container = document.getElementById("experienceContainer");
+
+  function isColliding(newCard) {
+    const newRect = newCard.getBoundingClientRect();
+    const welcomeRect = document.getElementById("welcomeMessage").getBoundingClientRect();
+    if (!(newRect.right < welcomeRect.left ||
+          newRect.left > welcomeRect.right ||
+          newRect.bottom < welcomeRect.top ||
+          newRect.top > welcomeRect.bottom)) {
+      return true;
+    }
+    for (let card of container.children) {
+      const cardRect = card.getBoundingClientRect();
+      if (!(newRect.right < cardRect.left ||
+            newRect.left > cardRect.right ||
+            newRect.bottom < cardRect.top ||
+            newRect.top > cardRect.bottom)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function createExperienceCard(exp) {
+    let card = document.createElement("div");
+    card.classList.add("experience-card");
+
+    let img = document.createElement("img");
+    img.src = exp.photo_url;
+
+    let name = document.createElement("div");
+    name.classList.add("user-name");
+    name.textContent = exp.name;
+
+    let text = document.createElement("div");
+    text.classList.add("experience-text");
+    text.textContent = exp.content.length > 100 ? exp.content.substring(0, 100) + "..." : exp.content;
+
+    let readMore = document.createElement("span");
+    readMore.classList.add("read-more");
+    readMore.textContent = "Read More";
+    readMore.onclick = () => window.location.href = "/user-experience";
+
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(text);
+    if (exp.content.length > 100) card.appendChild(readMore);
+
+    container.appendChild(card);
+
+    let attempts = 0, placed = false;
+    while (attempts < 10 && !placed) {
+      let x = Math.random() * (window.innerWidth - 300);
+      let y = Math.random() * (window.innerHeight - 150) + 80;
+      card.style.left = `${x}px`;
+      card.style.top = `${y}px`;
+      if (!isColliding(card)) placed = true;
+      attempts++;
+    }
+
+    card.style.opacity = "1";
+    let offsetX = (Math.random() - 0.5) * 800;
+    let offsetY = (Math.random() - 0.5) * 800;
+    card.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+
+    setTimeout(() => {
+      card.style.animation = "vanish 0.8s forwards";
+    }, 3200);
+    setTimeout(() => card.remove(), 4000);
+  }
+
+  setInterval(() => {
+    let index = Math.floor(Math.random() * experiences.length);
+    createExperienceCard(experiences[index]);
+  }, 3000);
+</script>
+{% endblock %}
